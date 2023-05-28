@@ -1,0 +1,8 @@
+body {
+    background-color: white;
+    font-family: "Courier New", Courier, monospace;
+  }
+  .Sport-Item:hover .trash-icon {
+    display: block;
+  }
+  
