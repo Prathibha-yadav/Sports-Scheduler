@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet" />
+    <style>
+      /* Custom styles */
+      body {
+        background-color: #f3f1f1;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        max-width: 768px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .page-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .section-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #4c51bf;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+
+      .button:hover {
+        background-color: #4338ca;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+          <h6 class="py-4 page-title"><%= current_sport.sport_name %></h6>
+          <h1 class="text-2xl mb-2 section-title">Sessions</h1>
+
+          <div style="display: flex; margin-bottom: 10px;">
+            <a href="#" class="button">Create a new session</a>
+          </div>
+          <a href="#" class="button">View previous sessions</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

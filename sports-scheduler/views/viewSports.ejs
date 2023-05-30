@@ -1,0 +1,97 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sports Scheduler</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f0e4; /* Lighter coffee color */
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .mt-5 {
+      margin-top: 2rem;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #3f83b0; /* Indigo color */
+      margin-bottom: 16px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-top: 8px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    a {
+      display: block;
+      padding: 8px;
+      font-size: 18px;
+      text-decoration: none;
+      color: #000;
+      transition: color 0.3s ease; /* Add transition effect */
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    a:hover {
+      color: #3f83b0; /* Darker indigo color on hover */
+      text-decoration: underline;
+    }
+
+    .text-xl {
+      font-size: 20px;
+      color: #3f83b0; /* Indigo color */
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <% if (data.length > 0) { %>
+      <h1>Created by you</h1>
+      <ul>
+        <% for (var i = 0; i < data.length; i++) { %>
+          <% if (getUser.id == data[i].userId) { %>
+            <li class="Sports-Item">
+              <a href="/sportHome/<%= data[i].id %>">
+                <%= data[i].sport_name %>
+              </a>
+            </li>
+          <% } %>
+        <% } %>
+      </ul>
+
+      <h1>Available sports</h1>
+      <ul>
+        <% for (var i = 0; i < data.length; i++) { %>
+          <% if (getUser.id != data[i].userId) { %>
+            <li class="Sports-Item">
+              <a href="/sportHome/<%= data[i].id %>">
+                <%= data[i].sport_name %>
+              </a>
+            </li>
+          <% } %>
+        <% } %>
+      </ul>
+    <% } else { %>
+      <p class="text-xl">There are no sports available for scheduling a session</p>
+    <% } %>
+  </div>
+</body>
+</html>

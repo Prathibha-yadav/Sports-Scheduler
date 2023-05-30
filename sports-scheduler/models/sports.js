@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       return this.findAll();
     }
     static addSports({ sport_name, userId }) {
-      return this.create({ sport_name, userId });
+      return this.create({ sport_name: sport_name, userId: userId });
     }
     static getSportById(id) {
       return this.findByPk(id);

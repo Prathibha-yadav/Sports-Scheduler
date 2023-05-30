@@ -4,28 +4,27 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="csrf-token" content="<%= csrfToken %>">
   <title>Sports Scheduler</title>
   <style>
-    body {
+   body {
       font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
+      background-color: #f2e2d2;
     }
 
     .container {
       max-width: 600px;
       margin: 0 auto;
       padding: 20px;
-      border: 4px solid #95cc95;
       border-radius: 8px;
-      background-color: #fff;
+      background-color: #dcbba2;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-
     h3 {
       font-size: 24px;
       font-weight: bold;
       color: #333;
       margin-bottom: 16px;
+      text-align: center;
     }
 
     label {
@@ -44,38 +43,32 @@
       border-radius: 4px;
       font-size: 14px;
       margin-bottom: 16px;
+      box-sizing: border-box;
     }
 
-    .role-label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: #555;
-    }
-
-    .role-select {
+    select {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 14px;
       margin-bottom: 16px;
-      appearance: none;
-      background-color: #e6e6fa;
     }
 
     .submit-button {
-      background-color: #e6e6fa;
+      background-color: #4a90e2; /* Blue color */
       color: #fff;
       border: none;
       border-radius: 4px;
       padding: 12px 24px;
       font-size: 16px;
       cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease; /* Add transition effect */
     }
 
     .submit-button:hover {
-      background-color: #d8d8fa;
+      background-color: #2e73c9; /* Darker blue color on hover */
     }
 
     .login-link {
@@ -95,20 +88,22 @@
   <div class="container">
     <h3>Sign-up</h3>
     <form action="/users" method="POST">
+      <input type="text" name="_csrf" value="<%= csrfToken %>" hidden>
       <div>
         <label for="firstname">First Name:</label>
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <input type="text" name="firstname" placeholder="First Name" required>
       </div>
       <div>
         <label for="lastname">Last Name:</label>
         <input type="text" name="lastname" placeholder="Last Name" required>
       </div>
-      <div class="role-label">SignUp As:</div>
-      <select class="role-select" name="role">
-        <option value="admin">Admin</option>
-        <option value="player">Player</option>
-      </select>
+      <div>
+        <label for="role">Sign Up As:</label>
+        <select name="role">
+          <option value="admin">Admin</option>
+          <option value="player">Player</option>
+        </select>
+      </div>
       <div>
         <label for="email">Email:</label>
         <input type="email" name="email" placeholder="Email" required>

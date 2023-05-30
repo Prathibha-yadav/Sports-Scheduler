@@ -1,20 +1,19 @@
 /* eslint-disable camelcase */
 /* eslint-disable eqeqeq */
-/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const { request, response } = require("express");
 const express = require("express");
 const app = express();
 const csrf = require("tiny-csrf");
 
-const { User, sports, session } = require("./models");
+const { User, sports, Session } = require("./models");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
 const passport = require("passport");
 const connectEnsureLogin = require("connect-ensure-login");
-const Session = require("express-session");
+const session = require("express-session");
 const LocalStrategy = require("passport-local");
 
 const bcrypt = require("bcrypt");
@@ -37,7 +36,7 @@ app.use(cookieParser("ssh!!!! some secret string"));
 app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 
 app.use(
-  Session({
+  session({
     secret: "this is my secret-258963147536214",
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
@@ -97,7 +96,7 @@ app.get("/", (request, response) => {
     if (request.user.role == "admin") {
       response.redirect("/admin");
     } else {
-      response.redirect("/user");
+      response.redirect("/player");
     }
   } else {
     response.render("index", {
@@ -106,7 +105,6 @@ app.get("/", (request, response) => {
     });
   }
 });
-
 app.post("/users", async (request, response) => {
   if (!request.body.firstname) {
     request.flash("error", "First Name cannot be empty");
@@ -126,11 +124,12 @@ app.post("/users", async (request, response) => {
     return response.redirect("/signup");
   }
   const hashedPwd = await bcrypt.hash(request.body.password, saltRounds);
+  console.log("users called..");
   console.log(hashedPwd);
   try {
     const user = await User.addUser({
-      firstName: request.body.firstName,
-      lastName: request.body.lastName,
+      firstname: request.body.firstname,
+      lastname: request.body.lastname,
       email: request.body.email,
       password: hashedPwd,
       role: request.body.role,
@@ -146,7 +145,7 @@ app.post("/users", async (request, response) => {
   } catch (error) {
     console.log(error);
     request.flash("error", error.errors[0].message);
-    response.redirect("/");
+    response.redirect("/signup");
   }
 });
 
@@ -155,7 +154,7 @@ app.get("/login", (request, response) => {
     if (request.user.role == "admin") {
       response.redirect("/admin");
     } else {
-      response.redirect("/user");
+      response.redirect("/player");
     }
   } else {
     response.render("login", {
@@ -187,7 +186,7 @@ app.post(
       response.redirect("/admin");
     }
     if (request.user.role == "player") {
-      response.redirect("/user");
+      response.redirect("/player");
     }
   }
 );
@@ -209,7 +208,7 @@ app.get(
     const getUser = await User.addUser(loggedinUser);
 
     if (request.accepts("HTML")) {
-      response.render("adminAddSport", {
+      response.render("adminHome", {
         getUser,
         allSports,
         csrfToken: request.csrfToken(),
@@ -222,27 +221,28 @@ app.get(
     }
   }
 );
-app.get(
-  "/createsport",
-  connectEnsureLogin.ensureLoggedIn(),
-  async (request, response) => {
-    response.render("sport", { csrfToken: request.csrfToken() });
-  }
-);
 
 app.get(
-  "/user",
+  "/player",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     const loggedinUser = request.user.id;
     console.log(loggedinUser);
     const allSports = await sports.getSports();
     const getUser = await User.addUser(loggedinUser);
-    response.render("sport", {
+    response.render("sportsHome", {
       getUser,
       allSports,
       csrfToken: request.csrfToken(),
     });
+  }
+);
+
+app.get(
+  "/createsport",
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    response.render("AddSport", { csrfToken: request.csrfToken() });
   }
 );
 
@@ -261,7 +261,7 @@ app.post(
       });
       console.log(sport.sport_name);
       console.log(sport);
-      const url = `/sports/${sport.id}`;
+      const url = `/sportPage/${sport.id}`;
       response.redirect(url);
     } catch (error) {
       console.log(error);
@@ -271,7 +271,7 @@ app.post(
   }
 );
 app.get(
-  "/sports/:id",
+  "/sportPage/:id",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     console.log(request.params.id);
@@ -279,7 +279,7 @@ app.get(
     console.log(current_sport.sport_name);
     // const sessionDetails = await Session.getSessions()
     const userid = request.user.id;
-    response.render("sports", {
+    response.render("sportPage", {
       current_sport,
       // sessionDetails,
       userid,

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create New Sport</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f0e4; 
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .h-screen {
+      height: 100vh;
+    }
+
+    .bg-indigo-100 {
+      background-color: #bda57d; 
+    }
+
+    .rounded-lg {
+      border-radius: 8px;
+    }
+
+    .shadow-lg {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .p-10 {
+      padding: 40px;
+    }
+
+    .text-3xl {
+      font-size: 3rem;
+    }
+
+    .font-bold {
+      font-weight: bold;
+    }
+
+    .text-indigo-700 {
+      color: #10101d; /* Indigo color */
+    }
+
+    .mb-6 {
+      margin-bottom: 24px;
+    }
+
+    .text-indigo-700 {
+      color: #0b1924; /* Indigo color */
+    }
+
+    .bg-gray-100 {
+      background-color: #f7fafc; /* Light gray color */
+    }
+
+    .text-gray-900 {
+      color: #222; /* Dark gray color */
+    }
+
+    .rounded {
+      border-radius: 4px;
+    }
+
+    .p-2 {
+      padding: 8px;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .py-2 {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    .px-6 {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .bg-indigo-700 {
+      background-color: #3f83b0; /* Indigo color */
+    }
+
+    .text-white {
+      color: #fff;
+    }
+
+    .font-medium {
+      font-weight: 500;
+    }
+
+    .hover\:bg-indigo-800:hover {
+      background-color: #2c5282; /* Darker indigo color on hover */
+    }
+
+    .mt-4 {
+      margin-top: 16px;
+    }
+
+    .text-red-600 {
+      color: #e53e3e; /* Red color */
+    }
+  </style>
+</head>
+<body>
+  <div class="flex items-center justify-center h-screen">
+    <div class="bg-indigo-100 rounded-lg shadow-lg p-10">
+      <h2 class="text-3xl font-bold text-center text-indigo-700 mb-6">Create a new sport</h2>
+      <form action="/createsport" method="post">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="mb-6">
+          <label for="sport_name" class="text-indigo-700">Enter your sport name here</label>
+          <input type="text" name="sport_name" class="bg-gray-100 text-gray-900 rounded p-2 w-full">
+        </div>
+        <div class="flex justify-center">
+          <button type="submit" class="py-2 px-6 bg-indigo-700 text-white font-medium rounded hover:bg-indigo-800">Submit</button>
+        </div>
+        <%- include('footer')%>
+      </form>
+      <div class="mt-4 text-red-600">
+        <% if(messages && messages.error && messages.error.length > 0)  { %>
+          <% for(var i=0; i<messages.error.length; i++) { %>
+            <li> <%= messages.error[i] %></li>
+          <% } %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
