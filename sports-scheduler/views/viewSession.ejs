@@ -1,56 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="csrf-token" content= "<%= csrfToken %>">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="./css/styles.css" rel="stylesheet" />
-  </head>
-  <body class="bg-indigo-400">
+    <title>Sports Scheduler</title>
+</head>
 
-    <div class="flex items-center justify-center mt-5">
-      <div class="bg-indigo-100 rounded-lg shadow-lg p-10">
-        <h2 class="text-3xl font-bold text-center text-indigo-700 mb-6">Create new <%= current_sport_name %> session</h2>
-        <form action="/viewSession" method="post">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <input type="hidden" name="name" value="<%= current_sport_name %>">
-          <div class="mb-6">
-            <label for="date" class="text-indigo-700">When will this sport session be held?</label>
-            <input type="datetime-local" name="date" class="bg-gray-100 text-gray-900 rounded p-2 w-full">
-          </div>
-          <div class="mb-6">
-            <label for="address" class="text-indigo-700">Where will this session be played?</label>
-            <input type="text" name="address" class="bg-gray-100 text-gray-900 rounded p-2 w-full">
-          </div>
-          <div class="mb-6">
-            <label for="players" class="text-indigo-700">Who all will be joining you in this session? <br></label>
-            <select name="players" id="players" multiple class="border bg-gray-100 text-gray-900 rounded p-2 w-full">
-              <option value="" selected disabled hidden>Select players</option>
-              <% for (var i =0; i <data.length;  i++ ) { %>
-                          <option value="<%= data[i].id %>">
-                              <%= data[i].firstName %>
-                          </option>
-              <% } %>                        
-            </select>
-          </div>
-          <div class="mb-6">
-            <label for="count" class="text-indigo-700">How many more players do you need?</label>
-            <input type="number" min="0" name="count" class="bg-gray-100 text-gray-900 rounded p-2 w-full">
-          </div>
-          <div class="flex justify-center">
-            <button type="submit" class="py-2 px-6 bg-indigo-700 text-white font-medium rounded hover:bg-indigo-800">Submit</button>
-          </div>
-        </form>
-        <div class="mt-4 text-red-600">
-          <% if(messages && messages.error && messages.error.length > 0)  { %>
-            <% for(var i=0; i<messages.error.length; i++) { %>
-                    <li> <%= messages.error[i] %></li>
-            <% } %>
-          <% } %>
+<script>
+    var token = document
+                      .querySelector('meta[name = "csrf-token"]')
+                      .getAttribute('content');
+    function deleteSport(id){
+    fetch(`/sportsession`,{
+      method : 'DELETE',
+      headers : {"content-type" : 'application/json'},
+      body: JSON.stringify({
+        id: id,
+        name: '<%= getUser.role %>',
+        '_csrf': token
+      })
+    })
+    .then((res) =>{
+        
+      if(res.ok){
+        window.location.assign('/admin');
+      }
+       
+    })
+    .catch((error)=> console.log(error)); 
+}
+</script>
+
+<body>
+    
+
+    <%- include('footer')%>
+    <div class="container m-auto mt-10 p-auto">
+        <div>
+            <a href="/">Home</a> > <a href="/sportsession/<%= sportID %>"><%= name %></a>
         </div>
-      </div>
+        <div>
+            <p class="text-6xl mb-5"><%= name %></p>
+            <% if( getUser.role== 'admin') { %>
+                <a href="#" class="text-right my-10 text-lime-950">Edit</a>    
+                <a href="#" onclick="deleteSport(<%= sportID %>)" class="text-right mx-10 text-lime-950">Delete</a>    
+            <% } %>
+        </div>
+        
+        <br>
+        <p class="text-2xl">Created by you</p>
+        <% for(var i=0; i<allSessions.length; i++) { %>
+            <% if( getUser.id == allSessions[i].userId ){%>
+        <a href="/session/<%= allSessions[i].id %>">
+            <div class="w-auto mt-10 rounded-lg flex text-white px-10 py-4 bg-lime-950 h-16 cursor-pointer overflow-hidden hover:bg-white hover:text-lime-950 border-2 border-lime-950">
+                <%= allSessions[i].time %>
+                <p class="text-right ml-10">
+                    <%= ( allSessions[i].noplayers - allSessions[i].playername.length )%> slots available
+                </p> 
+            </div>
+        </a>
+        <% } %>
+        <% } %>
+    <br>
+    <hr>
+    <br>
+        <p class="text-2xl">Other Sessions</p>
+        <% for(var i=0; i<allSessions.length; i++) { %>
+            <% if( getUser.id != allSessions[i].userId && !getUser.sessionId.includes(allSessions[i].id) ){%>
+        <a href="/session/<%= allSessions[i].id %>">
+            <div class="w-auto mt-10 rounded-lg flex text-white px-10 py-4 bg-lime-950 h-16 cursor-pointer overflow-hidden hover:bg-white hover:text-lime-950 border-2 border-lime-950">
+                <%= allSessions[i].time %>
+                <p class="text-right ml-10">
+                    <%= ( allSessions[i].noplayers - allSessions[i].playername.length )%> slots available
+                </p> 
+            </div>
+        </a>
+        <% } %>
+        <% } %>
+    
+    <br>
+    <hr>
+    <br>
+    <p class="text-2xl">Joined Sessions</p>
+    
+    <% if(getUser.sessionId != null) {%>
+    <% for(var i=0; i<allSessions.length; i++) { %>
+        
+        <% if( getUser.sessionId.includes(allSessions[i].id)  ){%>
+    <a href="/session/<%= allSessions[i].id %>">
+        <div class="w-auto mt-10 rounded-lg flex text-white px-10 py-4 bg-lime-950 h-16 cursor-pointer overflow-hidden hover:bg-white hover:text-lime-950 border-2 border-lime-950">
+            <%= allSessions[i].time %>
+            <p class="text-right ml-10">
+                <%= ( allSessions[i].noplayers - allSessions[i].playername.length )%> slots available
+            </p> 
+        </div>
+    </a>
+    <% } %>
+    <% } %>
+    <% } %>
+</div>
+    <div class="container m-auto mt-10 p-auto text-xl gap-10" >
+        <a href="/createsession/<%= sportID %>" >Create a new session</a>
+        <a href="/previoussessions/<%= sportID %>" class="px-10">View previous sessions</a>
     </div>
-  </body>
+    
+</body>
 </html>

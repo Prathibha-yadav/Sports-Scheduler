@@ -69,7 +69,7 @@
         <% for (var i = 0; i < data.length; i++) { %>
           <% if (getUser.id == data[i].userId) { %>
             <li class="Sports-Item">
-              <a href="/sportHome/<%= data[i].id %>">
+              <a href="/sportPage/<%= data[i].id %>">
                 <%= data[i].sport_name %>
               </a>
             </li>
@@ -82,7 +82,7 @@
         <% for (var i = 0; i < data.length; i++) { %>
           <% if (getUser.id != data[i].userId) { %>
             <li class="Sports-Item">
-              <a href="/sportHome/<%= data[i].id %>">
+              <a href="/sportPage/<%= data[i].id %>">
                 <%= data[i].sport_name %>
               </a>
             </li>
