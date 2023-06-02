@@ -59,7 +59,6 @@ passport.use(
     },
     (username, password, done) => {
       console.log(User);
-      console.log("check here");
       User.findOne({ where: { email: username } })
         .then(async (user) => {
           const result = await bcrypt.compare(password, user.password);
