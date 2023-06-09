@@ -10,6 +10,17 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
+    // await queryInterface.addColumn("sports", "userId", {
+    //   type: Sequelize.DataTypes.INTEGER,
+    // });
+    // await queryInterface.addConstraint("sports", {
+    //   fields: ["userId"],
+    //   type: "foreign key",
+    //   references: {
+    //     table: "Users",
+    //     field: "id",
+    //   },
+    // });
   },
 
   async down(queryInterface, Sequelize) {
@@ -19,5 +30,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
+    // await queryInterface.removeColumn("sports", "userId");
   },
 };

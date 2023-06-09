@@ -201,20 +201,20 @@ app.get(
   "/admin",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    const loggedinUser = request.user.id;
+    const loggedinUser = request.user;
     console.log(loggedinUser);
-    const allSports = await sports.getSports(loggedinUser);
+    const allSports = await sports.getSports(loggedinUser.id);
     const getUser = await User.addUser(loggedinUser);
 
     if (request.accepts("HTML")) {
       response.render("adminHome", {
-        getUser,
+        getUser: loggedinUser,
         allSports,
         csrfToken: request.csrfToken(),
       });
     } else {
       response.json({
-        getUser,
+        getUser: loggedinUser,
         allSports,
       });
     }
@@ -304,48 +304,40 @@ app.post(
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     const sport = await sports.getSportByName(request.body.name);
-    const somename = request.body.name;
-    const url = `/sportsession/${somename}`;
-    if (!request.body.time) {
+    const url = `/sportsession/${request.body.name}`;
+
+    if (!request.body.date) {
       request.flash("error", "Date cannot be empty");
       return response.redirect(url);
     }
-    if (!request.body.venue) {
-      request.flash("error", "Address cannot be empty");
+    if (!request.body.address) {
+      request.flash("error", "Venue cannot be empty");
       return response.redirect(url);
     }
-    console.log(request.body.players);
-
-    if (!request.body.players || request.body.players.length < 2) {
-      request.flash("error", " No. of players should be atleast 2");
+    if (!request.body.players || typeof request.body.players !== "string") {
+      request.flash("error", "Invalid players list");
       return response.redirect(url);
     }
     if (!request.body.count) {
       request.flash("error", "Enter 0 if no extra players needed");
       return response.redirect(url);
     }
+
     try {
-      const stringplayers = request.body.players;
-      const intplayers = stringplayers.map(Number);
-      console.log(intplayers);
       const session = await Session.addSession({
-        sportName: request.body.sportName,
-        time: request.body.time,
-        venue: request.body.venue,
-        players: request.body.players,
-        playerCount: request.body.playerCount,
+        sportName: request.body.name,
+        time: request.body.date,
+        venue: request.body.address,
+        players: request.body.players.split(","),
+        playerCount: request.body.count,
         status: true,
-        sportId: sport.id,
-        userId: request.user.id,
       });
-      console.log(url);
-      console.log(session);
-      const someid = sport.id;
-      const url2 = `/sportPage/${someid}`;
+
+      const url2 = `/sportPage/${sports.id}`;
       response.redirect(url2);
     } catch (error) {
       console.log(error);
-      request.flash("error", error.errors[0].message);
+      request.flash("error", error.message);
       response.redirect(url);
     }
   }

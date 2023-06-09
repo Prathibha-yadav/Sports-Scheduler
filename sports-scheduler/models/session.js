@@ -3,11 +3,6 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Session extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // define association here
       // Session.belongsTo(models.sports, {
@@ -21,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       return this.findAll();
     }
 
-    static addSession({
+    static async addSession({
       sportName,
       time,
       venue,
@@ -29,14 +24,20 @@ module.exports = (sequelize, DataTypes) => {
       playerCount,
       status,
     }) {
-      return this.create({
-        sportName: sportName,
-        time: time,
-        venue: venue,
-        players: players,
-        playerCount: playerCount,
-        status: status,
-      });
+      try {
+        const session = await this.create({
+          sportName,
+          time,
+          venue,
+          players: players ? players.split(",").map(Number) : [],
+          playerCount,
+          status,
+        });
+        return session;
+      } catch (error) {
+        console.error("Failed to add session:", error);
+        throw new Error("Failed to add session");
+      }
     }
   }
   Session.init(

@@ -4,20 +4,31 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    // await queryInterface.addColumn("session", "userId", {
+    //   type: Sequelize.DataTypes.INTEGER,
+    // });
+    // await queryInterface.addConstraint("session", {
+    //   fields: ["userId"],
+    //   type: "foreign key",
+    //   references: {
+    //     table: "users",
+    //     field: "id",
+    //   },
+    // });
+    // await queryInterface.addColumn("Sessions", "sportId", {
+    //   type: Sequelize.DataTypes.INTEGER,
+    // });
+    // await queryInterface.addConstraint("Sessions", {
+    //   fields: ["sportId"],
+    //   type: "foreign key",
+    //   references: {
+    //     table: "sports",
+    //     field: "id",
+    //   },
+    // });
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    //await queryInterface.removeColumn('Session', 'sportId');
   },
 };
