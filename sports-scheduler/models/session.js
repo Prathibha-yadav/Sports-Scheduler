@@ -4,13 +4,12 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Session extends Model {
     static associate(models) {
-      // define association here
-      // Session.belongsTo(models.sports, {
-      //   foreignKey: "sportId",
-      // });
-      // Session.belongsTo(models.User, {
-      //   foreignKey: "userId",
-      // });
+      Session.belongsTo(models.Sport, {
+        foreignKey: "sportId",
+      });
+      Session.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
     }
     static getSessions() {
       return this.findAll();
@@ -29,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
           sportName,
           time,
           venue,
-          players: players ? players.split(",").map(Number) : [],
+          players: JSON.stringify(players),
           playerCount,
           status,
         });
@@ -45,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       sportName: DataTypes.STRING,
       time: DataTypes.DATE,
       venue: DataTypes.STRING,
-      players: DataTypes.ARRAY(DataTypes.INTEGER),
+      players: DataTypes.ARRAY(DataTypes.STRING),
       playerCount: DataTypes.INTEGER,
       status: DataTypes.BOOLEAN,
     },

@@ -10,6 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Session, {
+        foreignKey: "userId",
+      });
+      User.hasMany(models.Sport, {
+        foreignKey: "userId",
+      });
     }
     static addUser({ firstname, lastname, email, password, role }) {
       return this.create({ firstname, lastname, email, password, role });

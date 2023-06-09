@@ -6,7 +6,7 @@ const express = require("express");
 const app = express();
 const csrf = require("tiny-csrf");
 
-const { User, sports, Session } = require("./models");
+const { User, Sport, Session } = require("./models");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -203,7 +203,7 @@ app.get(
   async (request, response) => {
     const loggedinUser = request.user;
     console.log(loggedinUser);
-    const allSports = await sports.getSports(loggedinUser.id);
+    const allSports = await Sport.getSports(loggedinUser.id);
     const getUser = await User.addUser(loggedinUser);
 
     if (request.accepts("HTML")) {
@@ -225,10 +225,10 @@ app.get(
   "/player",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    const loggedinUser = request.user.id;
+    const loggedinUser = request.user;
     console.log(loggedinUser);
-    const allSports = await sports.getSports();
-    const getUser = await User.addUser(loggedinUser);
+    const allSports = await Sport.getSports(loggedinUser.id);
+    const getUser = await User.addUser(loggedinUser.id);
     response.render("playerHome", {
       getUser,
       allSports,
@@ -254,7 +254,7 @@ app.post(
       return response.redirect("/createsport");
     }
     try {
-      const sport = await sports.addSports({
+      const sport = await Sport.addSports({
         sport_name: request.body.sport_name,
         userId: request.user.id,
       });
@@ -274,7 +274,7 @@ app.get(
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     console.log(request.params.id);
-    const current_sport = await sports.getSportById(request.params.id);
+    const current_sport = await Sport.getSportById(request.params.id);
     console.log(current_sport.sport_name);
     const sessionDetails = await Session.getSessions();
     const userid = request.user.id;
@@ -303,7 +303,7 @@ app.post(
   "/sportsession",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    const sport = await sports.getSportByName(request.body.name);
+    const sport = await Sport.getSportByName(request.body.name);
     const url = `/sportsession/${request.body.name}`;
 
     if (!request.body.date) {
@@ -328,12 +328,12 @@ app.post(
         sportName: request.body.name,
         time: request.body.date,
         venue: request.body.address,
-        players: request.body.players.split(","),
+        players: request.body.players,
         playerCount: request.body.count,
         status: true,
       });
 
-      const url2 = `/sportPage/${sports.id}`;
+      const url2 = `/sportPage/${Sport.id}`;
       response.redirect(url2);
     } catch (error) {
       console.log(error);
