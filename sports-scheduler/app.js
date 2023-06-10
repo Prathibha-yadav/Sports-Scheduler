@@ -230,7 +230,7 @@ app.get(
     const allSports = await Sport.getSports(loggedinUser.id);
     const getUser = await User.addUser(loggedinUser.id);
     response.render("playerHome", {
-      getUser,
+      getUser: loggedinUser,
       allSports,
       csrfToken: request.csrfToken(),
     });
@@ -303,14 +303,18 @@ app.post(
   "/sportsession",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    const sport = await Sport.getSportByName(request.body.name);
+    const s_name = await Sport.getSportByName(request.body.name);
     const url = `/sportsession/${request.body.name}`;
+    const playersNames = request.body.players.split(",");
+    const playersArray = request.body.players
+      .split(",")
+      .map((player) => player.trim());
 
-    if (!request.body.date) {
+    if (!request.body.time) {
       request.flash("error", "Date cannot be empty");
       return response.redirect(url);
     }
-    if (!request.body.address) {
+    if (!request.body.venue) {
       request.flash("error", "Venue cannot be empty");
       return response.redirect(url);
     }
@@ -318,22 +322,23 @@ app.post(
       request.flash("error", "Invalid players list");
       return response.redirect(url);
     }
-    if (!request.body.count) {
+    if (!request.body.playerCount) {
       request.flash("error", "Enter 0 if no extra players needed");
       return response.redirect(url);
     }
 
     try {
       const session = await Session.addSession({
-        sportName: request.body.name,
-        time: request.body.date,
-        venue: request.body.address,
-        players: request.body.players,
-        playerCount: request.body.count,
+        sportName: request.body.sportName,
+        time: request.body.time,
+        venue: request.body.venue,
+        // players: playersArray,
+        playerCount: request.body.playerCount,
         status: true,
       });
 
-      const url2 = `/sportPage/${Sport.id}`;
+      const url2 = `/sportPage/${s_name.id}`;
+      console.log(session);
       response.redirect(url2);
     } catch (error) {
       console.log(error);

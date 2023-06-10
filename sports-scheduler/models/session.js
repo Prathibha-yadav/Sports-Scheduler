@@ -28,13 +28,13 @@ module.exports = (sequelize, DataTypes) => {
           sportName,
           time,
           venue,
-          players: JSON.stringify(players),
+          players,
           playerCount,
           status,
         });
         return session;
       } catch (error) {
-        console.error("Failed to add session:", error);
+        console.error("failed to add session:", error);
         throw new Error("Failed to add session");
       }
     }

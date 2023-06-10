@@ -64,21 +64,22 @@
         <form action="/sportsession" method="post">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="hidden" name="name" value="<%= current_sport_name %>">
+          
           <div>
-            <label for="date">When will this sport session be held?</label>
-            <input type="datetime-local" name="date">
+            <label for="time">When will this sport session be held?</label>
+            <input type="datetime-local" name="time">
           </div>
           <div>
-            <label for="address">Where will this session be played?</label>
-            <input type="text" name="address">
+            <label for="venue">Where will this session be played?</label>
+            <input type="text" name="venue">
           </div>
           <div>
             <label for="players">Who all will be joining you in this session? <br>(Enter player names separated by commas)</label>
             <input type="text" name="players">
           </div>
           <div>
-            <label for="count">How many more players do you need?</label>
-            <input type="number" min="0" name="count">
+            <label for="playerCount">How many more players do you need?</label>
+            <input type="number" min="0" name="playerCount">
           </div>
           <div>
             <button type="submit">Submit</button>
