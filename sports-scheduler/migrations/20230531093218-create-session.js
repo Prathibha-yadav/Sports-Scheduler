@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       players: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        type: Sequelize.ARRAY(Sequelize.STRING),
       },
       playerCount: {
         type: Sequelize.INTEGER,

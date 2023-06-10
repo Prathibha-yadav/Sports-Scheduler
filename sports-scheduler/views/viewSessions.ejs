@@ -77,6 +77,38 @@
         .text-coffee-dark {
             color: #6B4E3D;
         }
+
+        /* New styles */
+
+        a {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #BFA390;
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .Session-Item {
+            background-color: #6B4E3D;
+            color: white;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .text-xl {
+            font-size: 1.5rem;
+        }
+
+        .text-coffee-light {
+            color: #BFA390;
+        }
+
+        .text-coffee-dark {
+            color: #6B4E3D;
+        }
     </style>
 </head>
 <body>
@@ -84,28 +116,37 @@
         <% if (data.length > 0) { %>
             <h1 class="text-2xl text-indigo-700 font-bold mb-4">Created by you</h1>
             <ul class="list-disc">
-                <% for (var i =0; i <data.length;  i++ ) { %>
-                    <%if (userid==data[i].userId && sportid==data[i].sportId) { %>
-                        <li class="Session-Item">
-                            <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage">
-                                Session # <%= data[i].id %>
-                                <p class="text-coffee-dark">Time: <%= new Date(data[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
-                            </a>
-                        </li>
-                    <% } %>                    
-                <% } %>
+                <% for (var i = 0; i < data.length; i++) { %>
+                    <% if (userid == data[i].userId && sportid == data[i].sportId) { %>
+                      <% var emptySlots = data[i].playerCount; %>
+                      <li class="Session-Item">
+                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage">
+                          Session # <%= data[i].id %> - Empty Slots: <%= emptySlots %>
+                          <div>
+                            <p class="text-coffee-dark">Time: <%= new Date(data[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+                          </div>
+                        </a>
+                      </li>
+                    <% } %>
+                  <% } %>
+                  
             </ul>
             <h1 class="text-2xl text-indigo-700 font-bold mb-4">Other Sessions</h1>
             <ul class="list-disc">
-                <% for (var i =0; i <data.length;  i++ ) { %>
-                    <%if (userid!=data[i].userId && sportid==data[i].sportId) { %>
-                        <li class="Session-Item">
-                            <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/viewSports">
-                                Session # <%= data[i].id %>
-                            </a>
-                        </li>
-                    <% } %>                    
-                <% } %>
+                <% for (var i = 0; i < data.length; i++) { %>
+                    <% if (userid == data[i].userId && sportid == data[i].sportId) { %>
+                      <% var emptySlots = data[i].playerCount; %>
+                      <li class="Session-Item">
+                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage">
+                          Session # <%= data[i].id %> - Empty Slots: <%= emptySlots %>
+                          <div>
+                            <p class="text-coffee-dark">Time: <%= new Date(data[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+                          </div>
+                        </a>
+                      </li>
+                    <% } %>
+                  <% } %>
+                  
             </ul>
         <%} else { %>
             <p class="text-xl">There are no sessions available to join right now. Create one?</p>

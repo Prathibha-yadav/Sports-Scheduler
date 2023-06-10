@@ -327,7 +327,7 @@ app.post(
         sportName: request.body.sportName,
         time: request.body.time,
         venue: request.body.venue,
-        // players: request.body.players,
+        players: request.body.players.split(","),
         playerCount: request.body.playerCount,
         status: true,
         userId: request.user.id,
