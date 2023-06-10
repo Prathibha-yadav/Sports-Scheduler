@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     static getSessions() {
       return this.findAll();
     }
+    static getSessionById(id) {
+      return this.findByPk(id);
+    }
+    // static addSession({ session_name, userId }) {
+    //   return this.create({ session_name: session_name, userId: userId });
+    // }
 
     static async addSession({
       sportName,
@@ -24,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       status,
       userId,
       sportId,
+      sessionId,
     }) {
       try {
         const session = await this.create({
@@ -35,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
           status,
           userId,
           sportId,
+          sessionId,
         });
         return session;
       } catch (error) {

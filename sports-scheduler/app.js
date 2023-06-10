@@ -345,14 +345,22 @@ app.post(
   }
 );
 
-app.get("/allsessions", async (request, response) => {
-  try {
-    const sessions = await Session.findAll();
-    return response.send(sessions);
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
+app.get(
+  "/sessionPage/:id",
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    console.log(request.params.id);
+    const current_sport = await Sport.getSportById(request.params.id);
+    console.log(current_sport.sport_name);
+    const sessionDetails = await Session.getSessions();
+    const userid = request.user.id;
+    response.render("showSessionPage", {
+      current_sport,
+      sessionDetails,
+      userid,
+      csrfToken: request.csrfToken(),
+    });
   }
-});
+);
 
 module.exports = app;

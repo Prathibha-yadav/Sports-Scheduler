@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+
+    <style>
+      body {
+        background-color: #f5f0e1;
+        color: #452d19;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 1rem;
+        max-width: 800px;
+        width: 100%;
+        background-color: #e2d8c9;
+        padding: 1rem;
+        border-radius: 5px;
+      }
+
+      .col-start-3 {
+        grid-column-start: 3;
+      }
+
+      .col-span-2 {
+        grid-column-end: span 2;
+      }
+
+      .page-title {
+        color: #301e0d;
+        font-size: 1rem;
+        font-weight: bold;
+        padding: 0.5rem 0;
+      }
+
+      .section-title {
+        color: #301e0d;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+          <h6 class="py-4 page-title"><%= current_sport.sport_name %></h6>
+          <h1 class="text-2xl mb-2 section-title">Sessions</h1>
+          <div>
+            <%- include('sessionPage', {data: sessionDetails, userid, sportid:current_sport.id}) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

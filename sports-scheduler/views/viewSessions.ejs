@@ -120,7 +120,7 @@
                     <% if (userid == data[i].userId && sportid == data[i].sportId) { %>
                       <% var emptySlots = data[i].playerCount; %>
                       <li class="Session-Item">
-                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage">
+                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage/<%= data[i].id %>">
                           Session # <%= data[i].id %> - Empty Slots: <%= emptySlots %>
                           <div>
                             <p class="text-coffee-dark">Time: <%= new Date(data[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
@@ -137,7 +137,7 @@
                     <% if (userid == data[i].userId && sportid == data[i].sportId) { %>
                       <% var emptySlots = data[i].playerCount; %>
                       <li class="Session-Item">
-                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage">
+                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage/<%= data[i].id %>">
                           Session # <%= data[i].id %> - Empty Slots: <%= emptySlots %>
                           <div>
                             <p class="text-coffee-dark">Time: <%= new Date(data[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>

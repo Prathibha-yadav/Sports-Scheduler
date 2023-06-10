@@ -3,9 +3,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Session Page</title>
+
+    <style>
+        body {
+            background-color: #f7f1e3;
+            color: #452d19;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .session-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #efe4d4;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .session-item p {
+            margin: 0;
+            padding: 0.5rem 0;
+        }
+        
+        .text-coffee-dark {
+            color: #301e0d;
+        }
+    </style>
 </head>
+
 <body>
-    <p> inside session </p>
+    <div class="container">
+        <% for (var i = 0; i < sessionDetails.length; i++) { %>
+            <% if (userid == sessionDetails[i].userId && sportid == sessionDetails[i].sportId) { %>
+              <div class="session-item">
+                <h3>Session # <%= sessionDetails[i].id %></h3>
+                <p>Sport Name: <%= sessionDetails[i].sportName %></p>
+                <p class="text-coffee-dark">Time: <%= new Date(sessionDetails[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+                <p>Venue: <%= sessionDetails[i].venue %></p>
+                <p>Players: <%= sessionDetails[i].players %></p>
+              </div>
+            <% } %>
+
+        <% } %>
+    </div>
 </body>
 </html>
