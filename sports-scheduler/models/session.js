@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
       players,
       playerCount,
       status,
+      userId,
+      sportId,
     }) {
       try {
         const session = await this.create({
@@ -31,6 +33,8 @@ module.exports = (sequelize, DataTypes) => {
           players,
           playerCount,
           status,
+          userId,
+          sportId,
         });
         return session;
       } catch (error) {

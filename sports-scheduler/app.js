@@ -305,11 +305,6 @@ app.post(
   async (request, response) => {
     const s_name = await Sport.getSportByName(request.body.name);
     const url = `/sportsession/${request.body.name}`;
-    const playersNames = request.body.players.split(",");
-    const playersArray = request.body.players
-      .split(",")
-      .map((player) => player.trim());
-
     if (!request.body.time) {
       request.flash("error", "Date cannot be empty");
       return response.redirect(url);
@@ -332,9 +327,11 @@ app.post(
         sportName: request.body.sportName,
         time: request.body.time,
         venue: request.body.venue,
-        // players: playersArray,
+        // players: request.body.players,
         playerCount: request.body.playerCount,
         status: true,
+        userId: request.user.id,
+        sportId: s_name.id,
       });
 
       const url2 = `/sportPage/${s_name.id}`;
