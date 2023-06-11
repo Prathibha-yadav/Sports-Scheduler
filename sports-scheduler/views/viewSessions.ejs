@@ -113,17 +113,17 @@
 </head>
 <body>
     <div class="mt-5">
-        <% if (data.length > 0) { %>
+        <% if (sportDetails.length > 0) { %>
             <h1 class="text-2xl text-indigo-700 font-bold mb-4">Created by you</h1>
             <ul class="list-disc">
-                <% for (var i = 0; i < data.length; i++) { %>
-                    <% if (userid == data[i].userId && sportid == data[i].sportId) { %>
-                      <% var emptySlots = data[i].playerCount; %>
+                <% for (var i = 0; i < sportDetails.length; i++) { %>
+                    <% if (userid == sportDetails[i].userId && sportid == sportDetails[i].sportId) { %>
+                      <% var emptySlots = sportDetails[i].playerCount; %>
                       <li class="Session-Item">
-                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage/<%= data[i].id %>">
-                          Session # <%= data[i].id %> - Empty Slots: <%= emptySlots %>
+                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage/<%= sportDetails[i].id %>">
+                          Session # <%= sportDetails[i].id %> - Empty Slots: <%= emptySlots %>
                           <div>
-                            <p class="text-coffee-dark">Time: <%= new Date(data[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+                            <p class="text-coffee-dark">Time: <%= new Date(sportDetails[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
                           </div>
                         </a>
                       </li>
@@ -133,14 +133,14 @@
             </ul>
             <h1 class="text-2xl text-indigo-700 font-bold mb-4">Other Sessions</h1>
             <ul class="list-disc">
-                <% for (var i = 0; i < data.length; i++) { %>
-                    <% if (userid == data[i].userId && sportid == data[i].sportId) { %>
-                      <% var emptySlots = data[i].playerCount; %>
+                <% for (var i = 0; i < sportDetails.length; i++) { %>
+                    <% if (userid == sportDetails[i].userId && sportid == sportDetails[i].sportId) { %>
+                      <% var emptySlots = sportDetails[i].playerCount; %>
                       <li class="Session-Item">
-                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage/<%= data[i].id %>">
-                          Session # <%= data[i].id %> - Empty Slots: <%= emptySlots %>
+                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage/<%= sportDetails[i].id %>">
+                          Session # <%= sportDetails[i].id %> - Empty Slots: <%= emptySlots %>
                           <div>
-                            <p class="text-coffee-dark">Time: <%= new Date(data[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+                            <p class="text-coffee-dark">Time: <%= new Date(sportDetails[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
                           </div>
                         </a>
                       </li>

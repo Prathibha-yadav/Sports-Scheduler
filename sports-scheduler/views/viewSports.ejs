@@ -63,14 +63,14 @@
 </head>
 <body>
   <div class="container mt-5">
-    <% if (data.length > 0) { %>
+    <% if (sportDetails.length > 0) { %>
       <h1>Created by you</h1>
       <ul>
-        <% for (var i = 0; i < data.length; i++) { %>
-          <% if (getUser.id == data[i].userId) { %>
+        <% for (var i = 0; i < sportDetails.length; i++) { %>
+          <% if (getUser.id == sportDetails[i].userId) { %>
             <li class="Sports-Item">
-              <a href="/sportPage/<%= data[i].id %>">
-                <%= data[i].sport_name %>
+              <a href="/sportPage/<%= sportDetails[i].id %>">
+                <%= sportDetails[i].sport_name %>
               </a>
             </li>
           <% } %>
@@ -79,11 +79,11 @@
 
       <h1>Available sports</h1>
       <ul>
-        <% for (var i = 0; i < data.length; i++) { %>
-          <% if (getUser.id != data[i].userId) { %>
+        <% for (var i = 0; i < sportDetails.length; i++) { %>
+          <% if (getUser.id != sportDetails[i].userId) { %>
             <li class="Sports-Item">
-              <a href="/sportPage/<%= data[i].id %>">
-                <%= data[i].sport_name %>
+              <a href="/sportPage/<%= sportDetails[i].id %>">
+                <%= sportDetails[i].sport_name %>
               </a>
             </li>
           <% } %>

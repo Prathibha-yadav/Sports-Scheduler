@@ -9,7 +9,7 @@
     <h2>Welcome <%= getUser.firstname%> !</h2>
     
     <div>
-        <%- include('viewSports.ejs', {data: allSports,getUser:getUser}) %>
+        <%- include('viewSports.ejs', {sportDetails: allSports,getUser:getUser}) %>
     </div>
     <%- include('footer')%>
 </body>

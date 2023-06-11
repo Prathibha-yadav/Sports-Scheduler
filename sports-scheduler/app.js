@@ -290,10 +290,10 @@ app.get(
   "/sportsession/:sport_name",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    const data = await User.getAllUsers();
+    const sportDetails = await User.getAllUsers();
     const current_sport_name = request.params.sport_name;
     response.render("createSession", {
-      data,
+      sportDetails,
       current_sport_name,
       csrfToken: request.csrfToken(),
     });
