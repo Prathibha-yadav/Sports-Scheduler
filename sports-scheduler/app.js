@@ -5,7 +5,7 @@ const { request, response } = require("express");
 const express = require("express");
 const app = express();
 const csrf = require("tiny-csrf");
-
+// const { Op } = require('sequelize');
 const { User, Sport, Session } = require("./models");
 
 const bodyParser = require("body-parser");

@@ -39,17 +39,35 @@
     </style>
 </head>
 
+<script>
+ var token = document
+        .querySelector("meta[name='csrf-token']")
+        .getAttribute('content');
+function joinSession(id) {
+        makeRequest(
+          '/joinSession',
+          'POST',
+          { 'Content-Type': 'application/json' },
+          { sessionId: id },
+        ).then(() => window.location.reload());
+      }
+</script>
+
 <body>
+    <div>
+        <p> Available <%= current_sport.sport_name %> sessions</p>
+    </div>
     <div class="container">
         <% for (var i = 0; i < sessionDetails.length; i++) { %>
             <% if (userid == sessionDetails[i].userId && sportid == sessionDetails[i].sportId) { %>
               <div class="session-item">
                 <h3>Session # <%= sessionDetails[i].id %></h3>
-                <p>Sport Name: <%= sessionDetails[i].sportName %></p>
+                <p>Sport Name: <%= current_sport.sport_name %></p>
                 <p class="text-coffee-dark">Time: <%= new Date(sessionDetails[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
                 <p>Venue: <%= sessionDetails[i].venue %></p>
                 <p>Players: <%= sessionDetails[i].players %></p>
               </div>
+             
             <% } %>
 
         <% } %>
