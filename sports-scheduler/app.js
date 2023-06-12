@@ -229,11 +229,18 @@ app.get(
     console.log(loggedinUser);
     const allSports = await Sport.getSports(loggedinUser.id);
     const getUser = await User.addUser(loggedinUser.id);
-    response.render("playerHome", {
-      getUser: loggedinUser,
-      allSports,
-      csrfToken: request.csrfToken(),
-    });
+    if (request.accepts("HTML")) {
+      response.render("playerHome", {
+        getUser: loggedinUser,
+        allSports,
+        csrfToken: request.csrfToken(),
+      });
+    } else {
+      response.json({
+        getUser: loggedinUser,
+        allSports,
+      });
+    }
   }
 );
 
@@ -276,12 +283,14 @@ app.get(
     console.log(request.params.id);
     const current_sport = await Sport.getSportById(request.params.id);
     console.log(current_sport.sport_name);
-    const sessionDetails = await Session.getSessions();
+    const sessionDetails = await Session.getSessions(request.user.id);
     const userid = request.user.id;
+    const getUser = await User.addUser(request.user);
     response.render("sportPage", {
       current_sport,
       sessionDetails,
       userid,
+      getUser: request.user,
       csrfToken: request.csrfToken(),
     });
   }
@@ -305,6 +314,7 @@ app.post(
   async (request, response) => {
     const s_name = await Sport.getSportByName(request.body.name);
     const url = `/sportsession/${request.body.name}`;
+    // const sportName = await Sport.findSportById(request.body.sportName)
     if (!request.body.time) {
       request.flash("error", "Date cannot be empty");
       return response.redirect(url);
@@ -324,7 +334,7 @@ app.post(
 
     try {
       const session = await Session.addSession({
-        sportName: request.body.sportName,
+        // sportName: sportName.id,
         time: request.body.time,
         venue: request.body.venue,
         players: request.body.players.split(","),
@@ -351,16 +361,43 @@ app.get(
   async (request, response) => {
     console.log(request.params.id);
     const current_sport = await Sport.getSportById(request.params.id);
-    console.log(current_sport.sport_name);
     const sessionDetails = await Session.getSessions();
     const userid = request.user.id;
+    const createdByYou = sessionDetails.filter(
+      (session) =>
+        session.userId === userid && session.sportId === current_sport
+    );
+    const otherSessions = sessionDetails.filter(
+      (session) =>
+        session.userId !== userid && session.sportId === current_sport
+    );
+
     response.render("showSessionPage", {
       current_sport,
       sessionDetails,
+      createdByYou,
+      otherSessions,
       userid,
+      getUser: request.user,
       csrfToken: request.csrfToken(),
     });
   }
 );
-
+// app.get(
+//   '/completedSessions/:id',
+//   connectEnsureLogin.ensureLoggedIn(),
+//   async (request, response) => {
+//     console.log(request.params.id)
+//     const current_sport = await Sport.getSportById(request.params.id)
+//     console.log(current_sport.sport_name)
+//     const sessionDetails = await Session.getSessions()
+//     const userid = request.user.id
+//     response.render('completedSessions', {
+//       current_sport,
+//       sessionDetails,
+//       userid,
+//       csrfToken: request.csrfToken()
+//     })
+//   }
+// )
 module.exports = app;

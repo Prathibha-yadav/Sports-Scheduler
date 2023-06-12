@@ -1,6 +1,6 @@
 /* eslint-disable */
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Session extends Model {
     static associate(models) {
@@ -17,10 +17,19 @@ module.exports = (sequelize, DataTypes) => {
     static getSessionById(id) {
       return this.findByPk(id);
     }
-    // static addSession({ session_name, userId }) {
-    //   return this.create({ session_name: session_name, userId: userId });
-    // }
 
+    static async completedSessions(sportName) {
+      return this.findAll({
+        where: {
+          sportName: sportName,
+          status: false,
+          time: {
+            // eslint-disable-next-line no-undef
+            [Op.lt]: new Date(),
+          },
+        },
+      });
+    }
     static async addSession({
       sportName,
       time,

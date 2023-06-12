@@ -64,10 +64,11 @@
 <body>
   <div class="container mt-5">
     <% if (sportDetails.length > 0) { %>
-      <h1>Created by you</h1>
+      
       <ul>
         <% for (var i = 0; i < sportDetails.length; i++) { %>
           <% if (getUser.id == sportDetails[i].userId) { %>
+            <h1>Created by you</h1>
             <li class="Sports-Item">
               <a href="/sportPage/<%= sportDetails[i].id %>">
                 <%= sportDetails[i].sport_name %>

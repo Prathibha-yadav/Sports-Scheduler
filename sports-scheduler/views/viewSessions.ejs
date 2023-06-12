@@ -113,44 +113,55 @@
 </head>
 <body>
     <div class="mt-5">
+        <% let createdByYou = []; %>
+        <% let otherSessions = []; %>
+        
         <% if (sportDetails.length > 0) { %>
-            <h1 class="text-2xl text-indigo-700 font-bold mb-4">Created by you</h1>
-            <ul class="list-disc">
-                <% for (var i = 0; i < sportDetails.length; i++) { %>
-                    <% if (userid == sportDetails[i].userId && sportid == sportDetails[i].sportId) { %>
-                      <% var emptySlots = sportDetails[i].playerCount; %>
-                      <li class="Session-Item">
-                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage/<%= sportDetails[i].id %>">
-                          Session # <%= sportDetails[i].id %> - Empty Slots: <%= emptySlots %>
-                          <div>
-                            <p class="text-coffee-dark">Time: <%= new Date(sportDetails[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
-                          </div>
-                        </a>
-                      </li>
-                    <% } %>
-                  <% } %>
-                  
-            </ul>
-            <h1 class="text-2xl text-indigo-700 font-bold mb-4">Other Sessions</h1>
-            <ul class="list-disc">
-                <% for (var i = 0; i < sportDetails.length; i++) { %>
-                    <% if (userid == sportDetails[i].userId && sportid == sportDetails[i].sportId) { %>
-                      <% var emptySlots = sportDetails[i].playerCount; %>
-                      <li class="Session-Item">
-                        <a class="flex items-center py-1 px-2 my-1 text-xl hover:underline" href="/sessionPage/<%= sportDetails[i].id %>">
-                          Session # <%= sportDetails[i].id %> - Empty Slots: <%= emptySlots %>
-                          <div>
-                            <p class="text-coffee-dark">Time: <%= new Date(sportDetails[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
-                          </div>
-                        </a>
-                      </li>
-                    <% } %>
-                  <% } %>
-                  
-            </ul>
-        <%} else { %>
-            <p class="text-xl">There are no sessions available to join right now. Create one?</p>
-        <% } %>    
+          <% for (var i = 0; i < sportDetails.length; i++) { %>
+            <% if (getUser.id == sportDetails[i].userId && sportid == sportDetails[i].sportId) { %>
+              <% var emptySlots = sportDetails[i].playerCount; %>
+              <% createdByYou.push(sportDetails[i]); %>
+            <% } else { %>
+              <% otherSessions.push(sportDetails[i]); %>
+            <% } %>
+          <% } %>
+        <% } %>
+        
+        <% if (createdByYou.length > 0) { %>
+          <h1>Created by you</h1>
+          <ul>
+            <% for (var i = 0; i < createdByYou.length; i++) { %>
+              <li>
+                <a href="/sessionPage/<%= createdByYou[i].id %>">
+                  Session # <%= createdByYou[i].id %> - Empty Slots: <%= createdByYou[i].playerCount %>
+                  <div>
+                    <p>Time: <%= new Date(createdByYou[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+                  </div>
+                </a>
+              </li>
+            <% } %>
+          </ul>
+        <% } %>
+        
+        <% if (otherSessions.length > 0) { %>
+          <h1>Other sessions</h1>
+          <ul>
+            <% for (var i = 0; i < otherSessions.length; i++) { %>
+              <li>
+                <a href="/sessionPage/<%= otherSessions[i].id %>">
+                  Session # <%= otherSessions[i].id %> - Empty Slots: <%= otherSessions[i].playerCount %>
+                  <div>
+                    <p>Time: <%= new Date(otherSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+                  </div>
+                </a>
+              </li>
+            <% } %>
+          </ul>
+        <% } %>
+        
+        
+        
+        
     </div>
 </body>
 </html>

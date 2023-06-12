@@ -79,10 +79,11 @@ describe("Sports Scheduler ", function () {
   //   let res = await agent.get('/login')
   //   const csrfToken = extractCsrfToken(res)
   //   res = await agent.post('/session').send({
-  //     email: 'user.2@test.com',
+  //     email: 'user2@gmail',
   //     password: '123456789',
   //     _csrf: csrfToken
   //   })
+  //   console.log('hello')
   //   console.log(res)
   //   expect(res.statusCode).toBe(302)
   // })

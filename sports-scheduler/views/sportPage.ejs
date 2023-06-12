@@ -58,12 +58,13 @@
           </div>
           <h1 class="text-2xl mb-2 section-title">Sessions</h1>
           <div>
-            <%- include('viewSessions', {sportDetails: sessionDetails, userid, sportid:current_sport.id}) %>
+            <%- include('viewSessions', {sportDetails: sessionDetails, userid, sportid:current_sport.id, getUser}) %>
           </div>
           <div style="display: flex; margin-bottom: 10px;">
             <a href="/sportsession/<%= current_sport.sport_name %>" class="button">Create a new session</a>
           </div>
-          <a href="#" class="button">View previous sessions</a>
+            <a href="/completedSessions" class="px-10">View previous sessions</a>
+         
         </div>
       </div>
     </div>
