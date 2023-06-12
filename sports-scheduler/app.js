@@ -360,16 +360,15 @@ app.get(
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     console.log(request.params.id);
-    const current_sport = await Sport.getSportById(request.params.id);
+    const sportId = request.params.id;
+    const current_sport = await Sport.getSportById(sportId);
     const sessionDetails = await Session.getSessions();
     const userid = request.user.id;
     const createdByYou = sessionDetails.filter(
-      (session) =>
-        session.userId === userid && session.sportId === current_sport
+      (session) => session.userId === userid && session.sportId === sportId
     );
     const otherSessions = sessionDetails.filter(
-      (session) =>
-        session.userId !== userid && session.sportId === current_sport
+      (session) => session.userId !== userid && session.sportId === sportId
     );
 
     response.render("showSessionPage", {
@@ -378,6 +377,7 @@ app.get(
       createdByYou,
       otherSessions,
       userid,
+      sportId,
       getUser: request.user,
       csrfToken: request.csrfToken(),
     });

@@ -4,9 +4,6 @@ const { Model, Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Session extends Model {
     static associate(models) {
-      Session.belongsTo(models.Sport, {
-        foreignKey: "sportId",
-      });
       Session.belongsTo(models.User, {
         foreignKey: "userId",
       });

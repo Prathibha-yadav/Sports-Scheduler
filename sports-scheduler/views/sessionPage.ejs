@@ -59,7 +59,7 @@ function joinSession(id) {
     </div>
     <div class="container">
         <% for (var i = 0; i < sessionDetails.length; i++) { %>
-            <% if (sportid == sessionDetails[i].sportId) { %>
+            
               <div class="session-item">
                 <h3>Session # <%= sessionDetails[i].id %></h3>
                 <p>Sport Name: <%= current_sport.sport_name %></p>
@@ -68,8 +68,6 @@ function joinSession(id) {
                 <p>Players: <%= sessionDetails[i].players %></p>
               </div>
              
-            <% } %>
-
         <% } %>
     </div>
 </body>
