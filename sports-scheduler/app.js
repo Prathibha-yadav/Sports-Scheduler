@@ -89,6 +89,13 @@ passport.deserializeUser((id, done) => {
       done(error, null);
     });
 });
+function requirePublisher(request, response, next) {
+  if (request.user && request.user.role === "admin") {
+    return next();
+  } else {
+    response.status(401).json({ message: "Unauthorized user." });
+  }
+}
 
 app.get("/", (request, response) => {
   if (request.isAuthenticated()) {
@@ -247,6 +254,7 @@ app.get(
 app.get(
   "/createsport",
   connectEnsureLogin.ensureLoggedIn(),
+  requirePublisher,
   async (request, response) => {
     response.render("AddSport", { csrfToken: request.csrfToken() });
   }
@@ -255,6 +263,7 @@ app.get(
 app.post(
   "/createsport",
   connectEnsureLogin.ensureLoggedIn(),
+  requirePublisher,
   async (request, response) => {
     if (!request.body.sport_name) {
       request.flash("error", "Sport name cannot be empty");
@@ -315,26 +324,31 @@ app.post(
     const s_name = await Sport.getSportByName(request.body.name);
     const url = `/sportsession/${request.body.name}`;
     // const sportName = await Sport.findSportById(request.body.sportName)
+    // const current_sport = await Sport.getSports(request.user.id)
     if (!request.body.time) {
-      request.flash("error", "Date cannot be empty");
+      request.flash("error", "Please provide a valid date and time");
       return response.redirect(url);
     }
     if (!request.body.venue) {
-      request.flash("error", "Venue cannot be empty");
+      request.flash("error", "Please provide a valid venue");
       return response.redirect(url);
     }
     if (!request.body.players || typeof request.body.players !== "string") {
-      request.flash("error", "Invalid players list");
+      request.flash("error", "Invalid format for players list");
       return response.redirect(url);
     }
     if (!request.body.playerCount) {
-      request.flash("error", "Enter 0 if no extra players needed");
+      request.flash(
+        "error",
+        "Please enter the number of extra players required"
+      );
       return response.redirect(url);
     }
 
     try {
       const session = await Session.addSession({
         // sportName: sportName.id,
+        // sportName: current_sport.sport_name,
         time: request.body.time,
         venue: request.body.venue,
         players: request.body.players.split(","),
@@ -361,9 +375,10 @@ app.get(
   async (request, response) => {
     console.log(request.params.id);
     const sportId = request.params.id;
-    const current_sport = await Sport.getSportById(sportId);
+    const current_sport = await Sport.getSportById(request.params.id);
     const sessionDetails = await Session.getSessions();
     const userid = request.user.id;
+    const user = request.user;
     const createdByYou = sessionDetails.filter(
       (session) => session.userId === userid && session.sportId === sportId
     );
@@ -378,26 +393,60 @@ app.get(
       otherSessions,
       userid,
       sportId,
+      user,
       getUser: request.user,
       csrfToken: request.csrfToken(),
     });
   }
 );
-// app.get(
-//   '/completedSessions/:id',
-//   connectEnsureLogin.ensureLoggedIn(),
-//   async (request, response) => {
-//     console.log(request.params.id)
-//     const current_sport = await Sport.getSportById(request.params.id)
-//     console.log(current_sport.sport_name)
-//     const sessionDetails = await Session.getSessions()
-//     const userid = request.user.id
-//     response.render('completedSessions', {
-//       current_sport,
-//       sessionDetails,
-//       userid,
-//       csrfToken: request.csrfToken()
-//     })
-//   }
-// )
+
+app.post("/join-session", async (req, res) => {
+  const { sessionId } = req.body;
+  const user = req.user;
+  console.log("inside join-session......");
+  try {
+    const session = await Session.findByPk(sessionId);
+    if (!session) {
+      return res.status(404).send("Session not found");
+    }
+    if (!session.players.includes(user.firstname)) {
+      console.log("hello.....");
+      console.log(user.firstname);
+      console.log(session);
+      session.players.push(user.firstname);
+      session.playerCount--;
+      session.changed("players", true);
+
+      await session.save();
+    }
+    return res.redirect(`/sessionPage/${session.sportId}`);
+  } catch (error) {
+    console.error("Error joining session:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/leave-session", async (req, res) => {
+  const { sessionId } = req.body;
+  const user = req.user;
+  console.log("inside leave-session......");
+  try {
+    const session = await Session.findByPk(sessionId);
+    if (!session) {
+      return res.status(404).send("Session not found");
+    }
+    const index = session.players.indexOf(user.firstname);
+    if (index > -1) {
+      session.players.splice(index, 1);
+      session.playerCount++;
+      session.changed("players", true);
+      await session.save();
+    }
+    return res.redirect(`/sessionPage/${session.sportId}`);
+  } catch (error) {
+    console.error("Error leaving session:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+});
+
 module.exports = app;

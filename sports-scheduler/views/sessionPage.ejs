@@ -4,71 +4,87 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session Page</title>
-
     <style>
         body {
-            background-color: #f7f1e3;
-            color: #452d19;
             font-family: Arial, sans-serif;
+            background-color: #f5f0e1;
+            color: #362d20;
             margin: 0;
-            padding: 0;
+            padding: 20px;
         }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 1rem;
+
+        h3 {
+            color: #4d4030;
         }
-        
-        .session-item {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background-color: #efe4d4;
+
+        p {
+            margin: 5px 0;
+        }
+
+        div {
+            background-color: #e6dbc1;
+            padding: 10px;
+            margin-bottom: 10px;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
-        .session-item p {
-            margin: 0;
-            padding: 0.5rem 0;
+
+        .session-header {
+            background-color: #c7b49d;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
         }
-        
-        .text-coffee-dark {
-            color: #301e0d;
+
+        .sport-name {
+            font-weight: bold;
+            color: #362d20;
+        }
+
+        .time {
+            color: #745c44;
+        }
+
+        .venue {
+            color: #4d4030;
+        }
+
+        .players {
+            color: #745c44;
         }
     </style>
 </head>
-
-<script>
- var token = document
-        .querySelector("meta[name='csrf-token']")
-        .getAttribute('content');
-function joinSession(id) {
-        makeRequest(
-          '/joinSession',
-          'POST',
-          { 'Content-Type': 'application/json' },
-          { sessionId: id },
-        ).then(() => window.location.reload());
-      }
-</script>
-
 <body>
-    <div>
-        <p> Available <%= current_sport.sport_name %> sessions</p>
+    <div >
+        <h4>Available <%= current_sport.sport_name %> sessions</h4>
     </div>
-    <div class="container">
+    <div>
         <% for (var i = 0; i < sessionDetails.length; i++) { %>
-            
-              <div class="session-item">
-                <h3>Session # <%= sessionDetails[i].id %></h3>
-                <p>Sport Name: <%= current_sport.sport_name %></p>
-                <p class="text-coffee-dark">Time: <%= new Date(sessionDetails[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
-                <p>Venue: <%= sessionDetails[i].venue %></p>
-                <p>Players: <%= sessionDetails[i].players %></p>
-              </div>
-             
-        <% } %>
+            <div class="session-header">
+              <h3>Session # <%= sessionDetails[i].id %></h3>
+              <p class="sport-name">Sport Name: <%= current_sport.sport_name %></p>
+              <p class="time">Time: <%= new Date(sessionDetails[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+              <p class="venue">Venue: <%= sessionDetails[i].venue %></p>
+              <p class="players">Players: <%= sessionDetails[i].players %> %></p>
+              <p class="players">Players: <%= sessionDetails[i].players.length %> / <%= sessionDetails[i].playerCount %></p>
+              <% if (user) { %>
+                <% const isPlayerJoined = sessionDetails[i].players.includes(user.firstname); %>
+                <% if (!isPlayerJoined) { %>
+                  <form action="/join-session" method="POST">
+                    <input type="hidden" name="sessionId" value="<%= sessionDetails[i].id %>">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="submit" value="Join Session">
+                  </form>
+                <% } else { %>
+                  <p>You have already joined this session.</p>
+                  <form action="/leave-session" method="POST">
+                    <input type="hidden" name="sessionId" value="<%= sessionDetails[i].id %>">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="submit" value="Leave Session">
+                  </form>
+                <% } %>
+              <% } %>
+            </div>
+          <% } %>
     </div>
 </body>
 </html>

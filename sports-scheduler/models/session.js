@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "sportId",
       });
     }
+    static async findByPk(id) {
+      return this.findOne({
+        where: {
+          id: id,
+        },
+      });
+    }
     static getSessions() {
       return this.findAll();
     }
