@@ -75,17 +75,21 @@ describe("Sports Scheduler ", function () {
   //   })
   //   expect(res.statusCode).toBe(302)
   // })
-  // test('Login as Player', async () => {
-  //   let res = await agent.get('/login')
-  //   const csrfToken = extractCsrfToken(res)
-  //   res = await agent.post('/session').send({
-  //     email: 'user2@gmail',
+  // test('Login as a player', async () => {
+  //   const res = await agent.post('/users').send({
+  //     firstname: 'user2',
+  //     lastname: 'user',
+  //     email: 'user.2@test.com',
   //     password: '123456789',
-  //     _csrf: csrfToken
+  //     role: 'player'
   //   })
-  //   console.log('hello')
-  //   console.log(res)
   //   expect(res.statusCode).toBe(302)
+  //   const loginRes = await agent.post('/login').send({
+  //     email: 'user.2@test.com',
+  //     password: '123456789'
+  //   })
+  //   expect(loginRes.statusCode).toBe(302)
+  //   expect(loginRes.header.location).toBe('/')
   // })
 
   test("Sign out", async () => {
