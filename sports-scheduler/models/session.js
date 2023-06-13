@@ -7,6 +7,9 @@ module.exports = (sequelize, DataTypes) => {
       Session.belongsTo(models.User, {
         foreignKey: "userId",
       });
+      Session.belongsTo(models.Sport, {
+        foreignKey: "sportId",
+      });
     }
     static getSessions() {
       return this.findAll();
