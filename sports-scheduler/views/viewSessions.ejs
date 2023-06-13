@@ -116,6 +116,7 @@
     <% let createdByYou = []; %>
     <% let joinedSessions = []; %>
     <% let otherSessions = []; %>
+    <% let previousSessions = []; %>
     
     <% if (sportDetails.length > 0) { %>
       <% for (var i = 0; i < sportDetails.length; i++) { %>
@@ -127,6 +128,9 @@
           <% } %>
         <% } else { %>
           <% otherSessions.push(sportDetails[i]); %>
+        <% } %>
+        <% if (new Date(sportDetails[i].time) < new Date()) { %>
+          <% previousSessions.push(sportDetails[i]); %>
         <% } %>
       <% } %>
     <% } %>
@@ -146,6 +150,8 @@
               <form action="/delete-session" method="POST">
                 <input type="hidden" name="sessionId" value="<%= createdByYou[i].id %>">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <label for="cancellationReason">Cancellation Reason:</label>
+                <input type="text" name="cancellationReason" id="cancellationReason">
                 <button type="submit">Delete Session</button>
               </form>
             <% } %>
@@ -169,7 +175,21 @@
         <% } %>
       </ul>
     <% } %>
-    
+    <% if (previousSessions.length > 0) { %>
+      <h1>Previous Sessions</h1>
+      <ul>
+        <% for (var i = 0; i < previousSessions.length; i++) { %>
+          <li>
+            <a href="/sessionPage/<%= previousSessions[i].id %>">
+              Session # <%= previousSessions[i].id %> - Empty Slots: <%= previousSessions[i].playerCount %>
+              <div>
+                <p>Time: <%= new Date(previousSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+              </div>
+            </a>
+          </li>
+        <% } %>
+      </ul>
+    <% } %>
     <% if (otherSessions.length > 0) { %>
       <h1>Other sessions</h1>
       <ul>

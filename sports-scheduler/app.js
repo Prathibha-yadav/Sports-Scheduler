@@ -452,7 +452,7 @@ app.post(
   "/delete-session",
   connectEnsureLogin.ensureLoggedIn(),
   async (req, res) => {
-    const { sessionId } = req.body;
+    const { sessionId, cancellationReason } = req.body;
     const userId = req.user.id;
     try {
       const session = await Session.findByPk(sessionId);
@@ -464,6 +464,7 @@ app.post(
           .status(403)
           .send("You are not authorized to delete this session");
       }
+      session.cancellationReason = cancellationReason;
       await session.destroy();
       return res.redirect(`/sportPage/${session.sportId}`);
     } catch (error) {
