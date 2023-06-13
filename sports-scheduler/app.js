@@ -448,5 +448,29 @@ app.post("/leave-session", async (req, res) => {
     return res.status(500).send("Internal Server Error");
   }
 });
+app.post(
+  "/delete-session",
+  connectEnsureLogin.ensureLoggedIn(),
+  async (req, res) => {
+    const { sessionId } = req.body;
+    const userId = req.user.id;
+    try {
+      const session = await Session.findByPk(sessionId);
+      if (!session) {
+        return res.status(404).send("Session not found");
+      }
+      if (session.userId !== userId) {
+        return res
+          .status(403)
+          .send("You are not authorized to delete this session");
+      }
+      await session.destroy();
+      return res.redirect(`/sportPage/${session.sportId}`);
+    } catch (error) {
+      console.error("Error deleting session:", error);
+      return res.status(500).send("Internal Server Error");
+    }
+  }
+);
 
 module.exports = app;

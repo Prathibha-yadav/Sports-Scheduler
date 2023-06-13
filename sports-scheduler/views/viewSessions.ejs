@@ -112,55 +112,80 @@
     </style>
 </head>
 <body>
-    <div class="mt-5">
-        <% let createdByYou = []; %>
-        <% let otherSessions = []; %>
-        
-        <% if (sportDetails.length > 0) { %>
-          <% for (var i = 0; i < sportDetails.length; i++) { %>
-            <% if (getUser.id == sportDetails[i].userId && sportid == sportDetails[i].sportId) { %>
-              <% var emptySlots = sportDetails[i].playerCount; %>
-              <% createdByYou.push(sportDetails[i]); %>
-            <% } else { %>
-              <% otherSessions.push(sportDetails[i]); %>
-            <% } %>
+  <div class="mt-5">
+    <% let createdByYou = []; %>
+    <% let joinedSessions = []; %>
+    <% let otherSessions = []; %>
+    
+    <% if (sportDetails.length > 0) { %>
+      <% for (var i = 0; i < sportDetails.length; i++) { %>
+        <% if (getUser.id == sportDetails[i].userId && sportid == sportDetails[i].sportId) { %>
+          <% var emptySlots = sportDetails[i].playerCount; %>
+          <% createdByYou.push(sportDetails[i]); %>
+          <% if (sportDetails[i].players.includes(getUser.firstname)) { %>
+            <% joinedSessions.push(sportDetails[i]); %>
           <% } %>
+        <% } else { %>
+          <% otherSessions.push(sportDetails[i]); %>
         <% } %>
-        
-        <% if (createdByYou.length > 0) { %>
-          <h1>Created by you</h1>
-          <ul>
-            <% for (var i = 0; i < createdByYou.length; i++) { %>
-              <li>
-                <a href="/sessionPage/<%= createdByYou[i].id %>">
-                  Session # <%= createdByYou[i].id %> - Empty Slots: <%= createdByYou[i].playerCount %>
-                  <div>
-                    <p>Time: <%= new Date(createdByYou[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
-                  </div>
-                </a>
-              </li>
+      <% } %>
+    <% } %>
+    
+    <% if (createdByYou.length > 0) { %>
+      <h1>Created by you</h1>
+      <ul>
+        <% for (var i = 0; i < createdByYou.length; i++) { %>
+          <li>
+            <a href="/sessionPage/<%= createdByYou[i].id %>">
+              Session # <%= createdByYou[i].id %> - Empty Slots: <%= createdByYou[i].playerCount %>
+              <div>
+                <p>Time: <%= new Date(createdByYou[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+              </div>
+            </a>
+            <% if (getUser.id === createdByYou[i].userId) { %>
+              <form action="/delete-session" method="POST">
+                <input type="hidden" name="sessionId" value="<%= createdByYou[i].id %>">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit">Delete Session</button>
+              </form>
             <% } %>
-          </ul>
+          </li>
         <% } %>
-        
-        <% if (otherSessions.length > 0) { %>
-          <h1>Other sessions</h1>
-          <ul>
-            <% for (var i = 0; i < otherSessions.length; i++) { %>
-              <li>
-                <a href="/sessionPage/<%= otherSessions[i].id %>">
-                  Session # <%= otherSessions[i].id %> - Empty Slots: <%= otherSessions[i].playerCount %>
-                  <div>
-                    <p>Time: <%= new Date(otherSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
-                  </div>
-                </a>
-              </li>
-            <% } %>
-          </ul>
+      </ul>
+    <% } %>
+    
+    <% if (joinedSessions.length > 0) { %>
+      <h1>Joined Sessions</h1>
+      <ul>
+        <% for (var i = 0; i < joinedSessions.length; i++) { %>
+          <li>
+            <a href="/sessionPage/<%= joinedSessions[i].id %>">
+              Session # <%= joinedSessions[i].id %> - Empty Slots: <%= joinedSessions[i].playerCount %>
+              <div>
+                <p>Time: <%= new Date(joinedSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+              </div>
+            </a>
+          </li>
         <% } %>
-        
-        
-        
-    </div>
+      </ul>
+    <% } %>
+    
+    <% if (otherSessions.length > 0) { %>
+      <h1>Other sessions</h1>
+      <ul>
+        <% for (var i = 0; i < otherSessions.length; i++) { %>
+          <li>
+            <a href="/sessionPage/<%= otherSessions[i].id %>">
+              Session # <%= otherSessions[i].id %> - Empty Slots: <%= otherSessions[i].playerCount %>
+              <div>
+                <p>Time: <%= new Date(otherSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+              </div>
+            </a>
+          </li>
+        <% } %>
+      </ul>
+    <% } %>
+  </div>
+  
 </body>
 </html>

@@ -23,12 +23,15 @@ module.exports = (sequelize, DataTypes) => {
     static addSports({ sport_name, userId }) {
       return this.create({ sport_name: sport_name, userId: userId });
     }
-    static getSportById(id) {
-      return this.findByPk(id);
+    static async getSportById(id) {
+      console.log("ID:", id);
+      const sport = await this.findByPk(id);
+      console.log("Sport:", sport);
+      return sport;
     }
-    static async getSportByName(name) {
+    static async getSportByName(sportName) {
       const getSport = await this.findOne({
-        where: { sport_name: name },
+        where: { sport_name: sportName },
       });
       return getSport;
     }
