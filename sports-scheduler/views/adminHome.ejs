@@ -1,24 +1,77 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Home Page</title>
+    <style>
+        body {
+            background-color: #F5F0E1; /* Coffee color shade for background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #563D23; /* Coffee color shade for text */
+        }
+
+        .sport-item {
+            background-color: #E3D7C6; /* Coffee color shade for sport items */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .sport-name {
+            color: #563D23; /* Coffee color shade for sport name */
+            margin-top: 0;
+        }
+
+        .sport-details {
+            color: #8F6C53; /* Coffee color shade for sport details */
+            margin-bottom: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #563D23; /* Coffee color shade for buttons */
+            color: #F5F0E1; /* Coffee color shade for button text */
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #8F6C53; /* Darker coffee color shade on button hover */
+        }
+
+        .footer {
+            color: #563D23; /* Coffee color shade for footer text */
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome <%= getUser.firstname%> !</h2>
     <div>
-    <div>
-        <a href="/createsport" class="inline-block text-sm px-4 py-2  hover:border-purple hover:text-teal-500  mt-4 lg:mt-0">Create New Sport</a>
-        
-    </div>
-    <div>
-        <a href="/viewSports" class="inline-block text-sm px-4 py-2  hover:border-purple hover:text-teal-500  mt-4 lg:mt-0">view Available Sports</a>
-    </div>
-    <div>
-        <%- include('viewSports.ejs', {sportDetails: allSports,getUser:getUser}) %>
-    </div>
-    <%- include('footer')%>
+        <h1 >Welcome to Sports Scheduler <%= getUser.firstname %>!</h1>
+        <div class="sport-item">
+            <h3 class="sport-name">Create New Sport</h3>
+            <p class="sport-details">Click the button below to create a new sport.</p>
+            <a href="/createsport" class="button">Create New Sport</a>
+        </div>
+        <div class="sport-item">
+            <h3 class="sport-name">View Reports</h3>
+            <p class="sport-details">Click the button below to view reports.</p>
+            <a href="/viewReports" class="button">View Reports</a>
+        </div>
+        <%- include('viewSports.ejs', {sportDetails: allSports, getUser: getUser}) %>
+        <div class="footer">
+            <%- include('footer')%>
+        </div>
     </div>
 </body>
 </html>

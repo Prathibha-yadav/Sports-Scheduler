@@ -4,13 +4,61 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Home Page</title>
+    <style>
+        /* Body styles */
+        body {
+            background-color: #EEECE8; /* Light coffee cream */
+            color: #362F2D; /* Dark coffee brown */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Heading styles */
+        h2 {
+            color: #614F4B; /* Medium coffee brown */
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        /* Sports section styles */
+        .sports-section {
+            margin: 50px auto;
+            max-width: 800px;
+        }
+
+        .sport-item {
+            padding: 20px;
+            background-color: #D4B7A1; /* Light coffee brown */
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .sport-name {
+            font-size: 20px;
+            color: #4C2F27; /* Dark coffee brown */
+        }
+
+        .sport-details {
+            margin-top: 10px;
+            color: #69482E; /* Dark coffee brown */
+        }
+
+        /* Footer styles */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #362F2D; /* Dark coffee brown */
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome <%= getUser.firstname%> !</h2>
-    
     <div>
-        <%- include('viewSports.ejs', {sportDetails: allSports,getUser:getUser}) %>
+        <h2>Welcome <%= getUser.firstname %>!</h2>
+    <div class="sports-section">
+        <%- include('viewSports.ejs', {sportDetails: allSports, getUser: getUser}) %>
     </div>
-    <%- include('footer')%>
+    <div class="footer">
+        <%- include('footer')%>
+    </div>
+    </div>
 </body>
 </html>

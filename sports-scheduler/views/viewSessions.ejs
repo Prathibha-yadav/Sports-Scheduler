@@ -3,116 +3,86 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <style>
         body {
-            background-color: #EEECE9;
-            color: #6B4E3D;
+            background-color: #EEE2DC; /* Shade of coffee */
             font-family: Arial, sans-serif;
         }
 
-        .mt-5 {
-            margin-top: 2.5rem;
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .text-indigo-700 {
-            color: #3B3F52;
+        h1 {
+            color: #4A3F35; /* Dark brown */
         }
 
-        .font-bold {
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #BF9774; /* Light brown */
+            text-decoration: none;
             font-weight: bold;
         }
 
-        .mb-4 {
-            margin-bottom: 1rem;
-        }
-
-        .list-disc {
-            list-style-type: disc;
-            margin-left: 2rem;
-        }
-
-        .Session-Item {
-            background-color: #D1B7A0;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 0.5rem;
-        }
-
-        .flex {
-            display: flex;
-        }
-
-        .items-center {
-            align-items: center;
-        }
-
-        .py-1 {
-            padding-top: 0.25rem;
-            padding-bottom: 0.25rem;
-        }
-
-        .px-2 {
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-        }
-
-        .my-1 {
-            margin-top: 0.25rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .text-xl {
-            font-size: 1.25rem;
-        }
-
-        .hover\:underline:hover {
+        a:hover {
             text-decoration: underline;
         }
 
-        .text-coffee-light {
-            color: #BFA390;
+        .date-time {
+            color: #8F6A5F; /* Light brown */
+            margin-top: 5px;
         }
 
-        .text-coffee-dark {
-            color: #6B4E3D;
+        form {
+            margin-top: 10px;
         }
 
-        /* New styles */
-
-        a {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: #BFA390;
-            color: white;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #4A3F35; /* Dark brown */
         }
 
-        .Session-Item {
-            background-color: #6B4E3D;
-            color: white;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 0.5rem;
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #CCC;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .text-xl {
-            font-size: 1.5rem;
+        button[type="submit"] {
+            padding: 8px 16px;
+            background-color: #BF9774; /* Light brown */
+            border: none;
+            color: #FFFFFF;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
         }
 
-        .text-coffee-light {
-            color: #BFA390;
-        }
-
-        .text-coffee-dark {
-            color: #6B4E3D;
+        button[type="submit"]:hover {
+            background-color: #8F6A5F; /* Dark brown */
         }
     </style>
 </head>
 <body>
-  <div class="mt-5">
+  <div class="container mt-5">
     <% let createdByYou = []; %>
     <% let joinedSessions = []; %>
     <% let otherSessions = []; %>
@@ -142,7 +112,7 @@
           <li>
             <a href="/sessionPage/<%= createdByYou[i].id %>">
               Session # <%= createdByYou[i].id %> - Empty Slots: <%= createdByYou[i].playerCount %>
-              <div>
+              <div class="date-time">
                 <p>Time: <%= new Date(createdByYou[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
               </div>
             </a>
@@ -167,7 +137,7 @@
           <li>
             <a href="/sessionPage/<%= joinedSessions[i].id %>">
               Session # <%= joinedSessions[i].id %> - Empty Slots: <%= joinedSessions[i].playerCount %>
-              <div>
+              <div class="date-time">
                 <p>Time: <%= new Date(joinedSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
               </div>
             </a>
@@ -182,7 +152,7 @@
           <li>
             <a href="/sessionPage/<%= previousSessions[i].id %>">
               Session # <%= previousSessions[i].id %> - Empty Slots: <%= previousSessions[i].playerCount %>
-              <div>
+              <div class="date-time">
                 <p>Time: <%= new Date(previousSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
               </div>
             </a>
@@ -197,7 +167,7 @@
           <li>
             <a href="/sessionPage/<%= otherSessions[i].id %>">
               Session # <%= otherSessions[i].id %> - Empty Slots: <%= otherSessions[i].playerCount %>
-              <div>
+              <div class="date-time">
                 <p>Time: <%= new Date(otherSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
               </div>
             </a>

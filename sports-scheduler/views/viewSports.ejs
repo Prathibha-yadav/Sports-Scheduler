@@ -5,72 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sports Scheduler</title>
   <style>
+    /* Body styles */
     body {
+      background-color: #F8F4EE; /* Light coffee cream */
+      color: #362F2D; /* Dark coffee brown */
       font-family: Arial, sans-serif;
-      background-color: #f8f0e4; /* Lighter coffee color */
-      padding: 20px;
     }
 
+    /* Container styles */
     .container {
-      max-width: 600px;
+      max-width: 800px;
       margin: 0 auto;
+      padding: 20px;
+      background-color: #E3D7C6; /* Light coffee brown */
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .mt-5 {
-      margin-top: 2rem;
-    }
-
+    /* Heading styles */
     h1 {
-      font-size: 24px;
-      font-weight: bold;
-      color: #3f83b0; /* Indigo color */
-      margin-bottom: 16px;
+      color: #4C2F27; /* Dark coffee brown */
+      margin-top: 20px;
+      margin-bottom: 10px;
     }
 
+    /* List styles */
     ul {
       list-style-type: none;
-      padding-left: 0;
-      margin-top: 8px;
+      margin: 0;
+      padding: 0;
     }
 
-    li {
-      margin-bottom: 8px;
+    .button {
+            display: inline-block;
+            background-color: #563D23; /* Coffee color shade for buttons */
+            color: #F5F0E1; /* Coffee color shade for button text */
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #8F6C53; /* Darker coffee color shade on button hover */
+        }
+
+    .sport-item {
+            background-color: #E3D7C6; /* Coffee color shade for sport items */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+    .sport-item a:hover {
+      color: #69482E; /* Dark coffee brown on hover */
     }
 
-    a {
-      display: block;
-      padding: 8px;
-      font-size: 18px;
-      text-decoration: none;
-      color: #000;
-      transition: color 0.3s ease; /* Add transition effect */
-      background-color: #fff;
-      border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    a:hover {
-      color: #3f83b0; /* Darker indigo color on hover */
-      text-decoration: underline;
-    }
-
+    /* Message styles */
     .text-xl {
       font-size: 20px;
-      color: #3f83b0; /* Indigo color */
-      margin-top: 16px;
     }
   </style>
 </head>
 <body>
   <div class="container mt-5">
     <% if (sportDetails.length > 0) { %>
-      
+      <h3>Sports Created By You </h3>
       <ul>
         <% for (var i = 0; i < sportDetails.length; i++) { %>
           <% if (getUser.id == sportDetails[i].userId) { %>
-            <h1>Created by you</h1>
-            <li class="Sports-Item">
-              <a href="/sportPage/<%= sportDetails[i].id %>">
+            
+            <li class="sport-item">
+              <a href="/sportPage/<%= sportDetails[i].id %>"  class="button">
                 <%= sportDetails[i].sport_name %>
               </a>
             </li>
@@ -78,12 +84,12 @@
         <% } %>
       </ul>
 
-      <h1>Available sports</h1>
+      <h3>Available sports </h3>
       <ul>
         <% for (var i = 0; i < sportDetails.length; i++) { %>
           <% if (getUser.id != sportDetails[i].userId) { %>
-            <li class="Sports-Item">
-              <a href="/sportPage/<%= sportDetails[i].id %>">
+            <li class="sport-item">
+              <a href="/sportPage/<%= sportDetails[i].id %>"  class="button">
                 <%= sportDetails[i].sport_name %>
               </a>
             </li>
@@ -91,7 +97,7 @@
         <% } %>
       </ul>
     <% } else { %>
-      <p class="text-xl">There are no sports available</p>
+      <p class="text-xl">There are no sports currently available.</p>
     <% } %>
   </div>
 </body>
