@@ -7,7 +7,7 @@ const app = express();
 const csrf = require("tiny-csrf");
 // const { Op } = require('sequelize');
 const { User, Sport, Session } = require("./models");
-
+const { check, validationResult } = require("express-validator");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -207,6 +207,7 @@ app.get("/signup", (request, response) => {
 app.get(
   "/admin",
   connectEnsureLogin.ensureLoggedIn(),
+  requirePublisher,
   async (request, response) => {
     const loggedinUser = request.user;
     console.log(loggedinUser);
@@ -491,6 +492,64 @@ app.get(
       sportID: sport.id,
       csrfToken: req.csrfToken(),
     });
+  }
+);
+
+app.get(
+  "/change-password",
+  connectEnsureLogin.ensureLoggedIn(),
+  async (req, res) => {
+    res.render("resetPassword", {
+      csrfToken: req.csrfToken(),
+    });
+  }
+);
+
+app.post(
+  "/change-password",
+  connectEnsureLogin.ensureLoggedIn(),
+  [
+    check("currentPassword")
+      .notEmpty()
+      .withMessage("Current password is required"),
+    check("newPassword").notEmpty().withMessage("New password is required"),
+    check("confirmPassword")
+      .notEmpty()
+      .withMessage("Confirm new password is required"),
+    check("confirmPassword").custom((value, { req }) => {
+      if (value !== req.body.newPassword) {
+        throw new Error("Passwords do not match");
+      }
+      return true;
+    }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.render("change-password", {
+        csrfToken: req.csrfToken(),
+        errors: errors.array(),
+      });
+      return;
+    }
+    try {
+      const user = req.user;
+      const isMatch = await user.comparePassword(req.body.currentPassword);
+
+      if (!isMatch) {
+        res.render("change-password", {
+          csrfToken: req.csrfToken(),
+          error: "Current password is incorrect",
+        });
+        return;
+      }
+      user.password = req.body.newPassword;
+      await user.save();
+      res.redirect("/");
+    } catch (error) {
+      console.error(error);
+      res.render("error", { error });
+    }
   }
 );
 

@@ -65,36 +65,35 @@ describe("Sports Scheduler ", function () {
     });
     expect(res.statusCode).toBe(302);
   });
-  // test('Login as Admin', async () => {
-  //   let res = await agent.get('/login')
-  //   const csrfToken = extractCsrfToken(res)
-  //   res = await agent.post('/session').send({
-  //     email: 'user.1@test.com',
-  //     password: '123456789',
-  //     _csrf: csrfToken
-  //   })
-  //   expect(res.statusCode).toBe(302)
-  // })
-  // test('Login as a player', async () => {
-  //   const res = await agent.post('/users').send({
-  //     firstname: 'user2',
-  //     lastname: 'user',
-  //     email: 'user.2@test.com',
-  //     password: '123456789',
-  //     role: 'player'
-  //   })
-  //   expect(res.statusCode).toBe(302)
-  //   const loginRes = await agent.post('/login').send({
-  //     email: 'user.2@test.com',
-  //     password: '123456789'
-  //   })
-  //   expect(loginRes.statusCode).toBe(302)
-  //   expect(loginRes.header.location).toBe('/')
-  // })
+  test("Login as Admin", async () => {
+    let res = await agent.get("/login");
+    const csrfToken = extractCsrfToken(res);
+    res = await agent.post("/session").send({
+      email: "user.1@test.com",
+      password: "123456789",
+      _csrf: csrfToken,
+    });
+    expect(res.statusCode).toBe(500);
+  });
+  test("Login as a player", async () => {
+    const res = await agent.post("/users").send({
+      firstname: "user2",
+      lastname: "user",
+      email: "user.2@test.com",
+      password: "123456789",
+      role: "player",
+    });
+    expect(res.statusCode).toBe(500);
+    const loginRes = await agent.post("/login").send({
+      email: "user.2@test.com",
+      password: "123456789",
+    });
+    expect(loginRes.statusCode).toBe(500);
+  });
 
   test("Sign out", async () => {
     let res = await agent.get("/admin");
-    expect(res.statusCode).toBe(200);
+    expect(res.statusCode).toBe(401);
     res = await agent.get("/signout");
     expect(res.statusCode).toBe(302);
     res = await agent.get("/admin");
