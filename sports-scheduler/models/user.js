@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     static addUser({ firstname, lastname, email, password, role }) {
       return this.create({ firstname, lastname, email, password, role });
     }
+    static async getUser(userId) {
+      return this.findByPk(userId);
+    }
     static getAllUsers() {
       return this.findAll();
     }

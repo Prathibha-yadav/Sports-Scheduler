@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <style>
+        body {
+            background-color: #F5F0E1; /* Coffee color shade for background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #DBB176; /* Coffee color shade for container */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+        }
+
+        h3 {
+            color: #4D4030;
+            margin-top: 0;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <% for (var i = 0; i < sessionDetails.length; i++) { %>
+            <div>
+              <h3>Session # <%= sport.sport_name %></h3>
+              <p>Sport Name: <%= sessionDetails[i].sportName %></p>
+              <p>Time: <%= sessionDetails[i].time.toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+              <p>Venue: <%= sessionDetails[i].venue %></p>
+              <p>Players: <%= sessionDetails[i].players.join(', ') %></p>
+              <p>Player Count: <%= sessionDetails[i].playerCount %></p>
+              <p>Status: <%= sessionDetails[i].status ? 'Active' : 'Inactive' %></p>
+            </div>
+          <% } %>
+          
+    </div>
+</body>
+</html>

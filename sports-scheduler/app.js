@@ -473,5 +473,25 @@ app.post(
     }
   }
 );
+app.get(
+  "/viewReports",
+  connectEnsureLogin.ensureLoggedIn(),
+  requirePublisher,
+  async (req, res) => {
+    const sessionDetails = await Session.getSessions(req.user.id);
+    const getUser = await User.getUser(request.user);
+    const sport = await Sport.getSports(request.params);
+    const sportName = req.params.sport_name;
+    console.log("this is sport....", sport.sport_name);
+    res.render("viewReports", {
+      sessionDetails,
+      getUser,
+      sport,
+      sportName,
+      sportID: sport.id,
+      csrfToken: req.csrfToken(),
+    });
+  }
+);
 
 module.exports = app;
