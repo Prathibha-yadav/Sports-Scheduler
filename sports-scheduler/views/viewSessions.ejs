@@ -17,7 +17,14 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
+        .bc{
+          background-color: #482b1d;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          padding: 20px;
+          width: 100%;
+          box-sizing: border-box;
+        }
         h1 {
             color: #4A3F35; /* Dark brown */
         }
@@ -110,12 +117,14 @@
       <ul>
         <% for (var i = 0; i < createdByYou.length; i++) { %>
           <li>
-            <a href="/sessionPage/<%= createdByYou[i].id %>">
-              Session # <%= createdByYou[i].id %> - Empty Slots: <%= createdByYou[i].playerCount %>
-              <div class="date-time">
-                <p>Time: <%= new Date(createdByYou[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
-              </div>
-            </a>
+            <div class="bc">
+              <a href="/sessionPage/<%= createdByYou[i].id %>">
+                Session # <%= createdByYou[i].id %> - Empty Slots: <%= createdByYou[i].playerCount %>
+                <div class="date-time">
+                  <p>Time: <%= new Date(createdByYou[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+                </div>
+              </a>
+            </div>
             <% if (getUser.id === createdByYou[i].userId) { %>
               <form action="/delete-session" method="POST">
                 <input type="hidden" name="sessionId" value="<%= createdByYou[i].id %>">
@@ -135,12 +144,14 @@
       <ul>
         <% for (var i = 0; i < joinedSessions.length; i++) { %>
           <li>
+           <div class="bc">
             <a href="/sessionPage/<%= joinedSessions[i].id %>">
               Session # <%= joinedSessions[i].id %> - Empty Slots: <%= joinedSessions[i].playerCount %>
               <div class="date-time">
                 <p>Time: <%= new Date(joinedSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
               </div>
             </a>
+           </div>
           </li>
         <% } %>
       </ul>
@@ -150,12 +161,14 @@
       <ul>
         <% for (var i = 0; i < previousSessions.length; i++) { %>
           <li>
-            <a href="/sessionPage/<%= previousSessions[i].id %>">
-              Session # <%= previousSessions[i].id %> - Empty Slots: <%= previousSessions[i].playerCount %>
-              <div class="date-time">
-                <p>Time: <%= new Date(previousSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
-              </div>
-            </a>
+            <div class="bc">
+              <a href="/sessionPage/<%= previousSessions[i].id %>">
+                Session # <%= previousSessions[i].id %> - Empty Slots: <%= previousSessions[i].playerCount %>
+                <div class="date-time">
+                  <p>Time: <%= new Date(previousSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+                </div>
+              </a>
+            </div>
           </li>
         <% } %>
       </ul>
@@ -165,12 +178,14 @@
       <ul>
         <% for (var i = 0; i < otherSessions.length; i++) { %>
           <li>
-            <a href="/sessionPage/<%= otherSessions[i].id %>">
-              Session # <%= otherSessions[i].id %> - Empty Slots: <%= otherSessions[i].playerCount %>
-              <div class="date-time">
-                <p>Time: <%= new Date(otherSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
-              </div>
-            </a>
+            <div class="bc">
+              <a href="/sessionPage/<%= otherSessions[i].id %>">
+                Session # <%= otherSessions[i].id %> - Empty Slots: <%= otherSessions[i].playerCount %>
+                <div class="date-time">
+                  <p>Time: <%= new Date(otherSessions[i].time).toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }) %></p>
+                </div>
+              </a>
+            </div>
           </li>
         <% } %>
       </ul>
