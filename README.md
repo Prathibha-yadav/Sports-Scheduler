@@ -1,8 +1,10 @@
 README
+
 This repository is a sports management application that allows admins, players, and users to create and manage sports sessions. Here are the features and functionalities of the application:
 
 Admin Functionality
 Admins have the following capabilities:
+
 
 Admins can create sports.
 Signed-in admins can view a list of sports they have created and create a new sport.
@@ -12,6 +14,7 @@ Admins have access to reports showing the number of sessions played in a configu
 
 Player Functionality
 Players have the following capabilities:
+
 
 Players can sign up and sign in.
 If players don't have an account, they can sign up by providing their name, email address, and a password.
