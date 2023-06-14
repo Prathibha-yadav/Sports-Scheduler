@@ -130,7 +130,7 @@
                 <input type="hidden" name="sessionId" value="<%= createdByYou[i].id %>">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <label for="cancellationReason">Cancellation Reason:</label>
-                <input type="text" name="cancellationReason" id="cancellationReason">
+                <input type="text" name="cancellationReason" id="cancellationReason" required >
                 <button type="submit">Delete Session</button>
               </form>
             <% } %>
