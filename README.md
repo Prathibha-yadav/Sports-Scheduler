@@ -1,4 +1,4 @@
-README
+SPORTS SCHEDULER
 
 This repository is a sports management application that allows admins, players, and users to create and manage sports sessions. Here are the features and functionalities of the application:
 
