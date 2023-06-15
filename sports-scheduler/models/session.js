@@ -21,8 +21,11 @@ module.exports = (sequelize, DataTypes) => {
     static getSessions() {
       return this.findAll();
     }
-    static getSessionById(id) {
-      return this.findByPk(id);
+    static async getSessionById(id) {
+      console.log("ID:", id);
+      const session = await this.findByPk(id);
+      console.log("SESSION:", session);
+      return session;
     }
 
     static async completedSessions(sportName) {
