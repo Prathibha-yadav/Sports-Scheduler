@@ -4,6 +4,7 @@ This repository is a sports management application that allows admins, players, 
 Here are the features and functionalities of the application:
 
 Admin Functionality
+
 Admins have the following capabilities:
 
 
@@ -14,6 +15,7 @@ Admins can create and join sport sessions, just like regular players.
 Admins have access to reports showing the number of sessions played in a configurable time period.
 
 Player Functionality
+
 Players have the following capabilities:
 
 
