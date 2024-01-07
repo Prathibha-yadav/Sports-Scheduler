@@ -1,5 +1,6 @@
 # Sports Scheduler - Project Overview
 Live Application Link: [Sports Scheduler](#) *(https://capstone-sports-scheduler.onrender.com)*
+
 Welcome to the Sports Scheduler repository! This sports management application is designed to empower admins, players, and users to seamlessly create and manage sports sessions. Below are the detailed features and functionalities of the application:
 
 ## Admin Functionality
